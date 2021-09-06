@@ -39,6 +39,7 @@ jobs:
           template: ./arm-templates/resourcegroup.json
           parameters:
             rgName=${{env.resource_group_name}}
+            location=${{env.location}}
           deploynmentName: ${{env.resource_group_name}}
 
       - name: Deploy Storage Account
@@ -95,6 +96,7 @@ jobs:
           template: ./arm-templates/resourcegroup.json
           parameters:
             rgName=${{env.resource_group_name}}
+            location=${{env.location}}
           deploynmentName: ${{env.resource_group_name}}
 
       - name: Deploy Storage Account
