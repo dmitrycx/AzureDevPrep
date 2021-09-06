@@ -26,7 +26,7 @@
             "kind": "Storage"
         },
         {
-            "name": "ubuntuVM1-PublicIP",
+            "name": "DevAzurepVM1-PublicIP",
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
@@ -36,12 +36,12 @@
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
-                    "domainNameLabel": "[toLower('ubuntuVM1')]"
+                    "domainNameLabel": "[toLower('DevAzurepVM1')]"
                 }
             }
         },
         {
-            "name": "ubuntuVM1-nsg",
+            "name": "DevAzurepVM1-nsg",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2018-08-01",
             "location": "[resourceGroup().location]",
@@ -65,15 +65,15 @@
             }
         },
         {
-            "name": "ubuntuVM1-VirtualNetwork",
+            "name": "DevAzurepVM1-VirtualNetwork",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkSecurityGroups', 'ubuntuVM1-nsg')]"
+                "[resourceId('Microsoft.Network/networkSecurityGroups', 'DevAzurepVM1-nsg')]"
             ],
             "tags": {
-                "displayName": "ubuntuVM1-VirtualNetwork"
+                "displayName": "DevAzurepVM1-VirtualNetwork"
             },
             "properties": {
                 "addressSpace": {
@@ -83,11 +83,11 @@
                 },
                 "subnets": [
                     {
-                        "name": "ubuntuVM1-VirtualNetwork-Subnet",
+                        "name": "DevAzurepVM1-VirtualNetwork-Subnet",
                         "properties": {
                             "addressPrefix": "10.0.0.0/24",
                             "networkSecurityGroup": {
-                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'ubuntuVM1-nsg')]"
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'DevAzurepVM1-nsg')]"
                             }
                         }
                     }
@@ -95,16 +95,16 @@
             }
         },
         {
-            "name": "ubuntuVM1-NetworkInterface",
+            "name": "DevAzurepVM1-NetworkInterface",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/publicIPAddresses', 'ubuntuVM1-PublicIP')]",
-                "[resourceId('Microsoft.Network/virtualNetworks', 'ubuntuVM1-VirtualNetwork')]"
+                "[resourceId('Microsoft.Network/publicIPAddresses', 'DevAzurepVM1-PublicIP')]",
+                "[resourceId('Microsoft.Network/virtualNetworks', 'DevAzurepVM1-VirtualNetwork')]"
             ],
             "tags": {
-                "displayName": "ubuntuVM1-NetworkInterface"
+                "displayName": "DevAzurepVM1-NetworkInterface"
             },
             "properties": {
                 "ipConfigurations": [
@@ -113,10 +113,10 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'ubuntuVM1-PublicIP')]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'DevAzurepVM1-PublicIP')]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'ubuntuVM1-VirtualNetwork', 'ubuntuVM1-VirtualNetwork-Subnet')]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'DevAzurepVM1-VirtualNetwork', 'DevAzurepVM1-VirtualNetwork-Subnet')]"
                             }
                         }
                     }
@@ -124,22 +124,22 @@
             }
         },
         {
-            "name": "ubuntuVM1",
+            "name": "DevAzurepVM1",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2019-07-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkInterfaces', 'ubuntuVM1-NetworkInterface')]"
+                "[resourceId('Microsoft.Network/networkInterfaces', 'DevAzurepVM1-NetworkInterface')]"
             ],
             "tags": {
-                "displayName": "ubuntuVM1"
+                "displayName": "DevAzurepVM1"
             },
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "Standard_A2_v2"
                 },
                 "osProfile": {
-                    "computerName": "ubuntuVM1",
+                    "computerName": "DevAzurepVM1",
                     "adminUsername": "admin",
                     "adminPassword": "[parameters('adminPassword')]"
                 },
@@ -151,7 +151,7 @@
                         "version": "latest"
                     },
                     "osDisk": {
-                        "name": "ubuntuVM1-OSDisk",
+                        "name": "DevAzurepVM1-OSDisk",
                         "caching": "ReadWrite",
                         "createOption": "FromImage"
                     }
@@ -159,7 +159,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', 'ubuntuVM1-NetworkInterface')]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', 'DevAzurepVM1-NetworkInterface')]"
                         }
                     ]
                 },
