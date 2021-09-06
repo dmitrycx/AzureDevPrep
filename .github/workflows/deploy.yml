@@ -6,12 +6,11 @@ on:
       - main
   workflow_dispatch:
 
-env: 
-  resource_group_name: rg-stg-githubactions
-  location: eastus
+env:
   subscriptionId: ${{secrets.SUBSCRIPTION_ID}}
 
 jobs:
+
   armDeployStaging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
@@ -19,6 +18,7 @@ jobs:
     env: 
       resource_group_name: rg-githubactions
       location: eastus
+
     environment: 
       name: staging
 
@@ -71,7 +71,7 @@ jobs:
 
     env: 
       resource_group_name: rg-prod-githubactions
-      location: westus
+      location: westus2
     environment: 
       name: production
 
