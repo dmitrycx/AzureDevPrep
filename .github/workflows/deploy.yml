@@ -1,17 +1,26 @@
-name: bicepWorkflowDeployment
+name: AzureDevPrepWorkflowDeployment
 
 on:
   push:
     branches: 
       - main
   workflow_dispatch:
+
 env: 
-  resource_group_name: rg-githubactions
+  resource_group_name: rg-stg-githubactions
   location: eastus
-  subscriptionId: b6a799d5-67cd-4e7e-a7e5-32064ffc8ddd
+  subscriptionId: ${{secrets.SUBSCRIPTION_ID}}
+
 jobs:
-  flowDeploy:
+  armDeployStaging:
+    name: Deploy to Staging
     runs-on: ubuntu-latest
+
+    env: 
+      resource_group_name: rg-githubactions
+      location: eastus
+    environment: 
+      name: staging
 
     steps:
       - uses: actions/checkout@v2
@@ -39,7 +48,63 @@ jobs:
           subscriptionId: ${{env.subscriptionId}}
           template: ./arm-templates/storageaccount.json
           parameters: 
-            ./arm-templates/storageaccount.parameters.json
+            sku=Standard_LRS
+            storageAccountName=AzureDevPrepstg001
+            location=${{env.location}}
+          deploynmentMode: incremental
+
+      - name: Deploy Virtual Machine
+        uses: Azure/arm-deploy@v1
+        with:
+          scope: resourcegroup
+          resourceGroupName: ${{env.resource_group_name}}
+          subscriptionId: ${{env.subscriptionId}}
+          template: ./arm-templates/vm.json
+          parameters: 
+            adminPassword=${{secrets.VM_UBUNTU_ADMIN_PASSWORD}}
+            location="${{env.location}}"
+          deploynmentMode: incremental
+
+  armDeployProduction:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+
+    env: 
+      resource_group_name: rg-prod-githubactions
+      location: westus
+    environment: 
+      name: production
+
+    needs: armDeployStaging
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: Azure/login@v1
+        with: 
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+
+      - name: Deploy RG ${{env.resource_group_name}}
+        uses: Azure/arm-deploy@v1
+        with:
+          scope: subscription
+          subscriptionId: ${{env.subscriptionId}}
+          region: ${{env.location}}
+          template: ./arm-templates/resourcegroup.json
+          deploynmentName: ${{env.resource_group_name}}
+
+      - name: Deploy Storage Account
+        uses: Azure/arm-deploy@v1
+        id: storageAccountDeploy
+        with:
+          scope: resourcegroup
+          resourceGroupName: ${{env.resource_group_name}}
+          subscriptionId: ${{env.subscriptionId}}
+          template: ./arm-templates/storageaccount.json
+          parameters: 
+            sku=Standard_LRS
+            storageAccountName=AzureDevPrepstg002
+            location=${{env.location}}
           deploynmentMode: incremental
 
       - name: Deploy Virtual Machine
