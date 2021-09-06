@@ -7,6 +7,12 @@
             "metadata": {
                 "description": "enter the password for the admin account on this machine"
             }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "enter the location to deploy resources to"
+            }
         }
     },
     "functions": [],
@@ -16,7 +22,7 @@
             "name": "[toLower('DevAzurepVM1Storage')]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "tags": {
                 "displayName": "DevAzure Storage Account"
             },
@@ -29,7 +35,7 @@
             "name": "DevAzurepVM1-PublicIP",
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2019-11-01",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "tags": {
                 "displayName": "PublicIPAddress"
             },
@@ -44,7 +50,7 @@
             "name": "DevAzurepVM1-nsg",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2018-08-01",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "properties": {
                 "securityRules": [
                     {
@@ -68,7 +74,7 @@
             "name": "DevAzurepVM1-VirtualNetwork",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2019-11-01",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkSecurityGroups', 'DevAzurepVM1-nsg')]"
             ],
@@ -98,7 +104,7 @@
             "name": "DevAzurepVM1-NetworkInterface",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2019-11-01",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', 'DevAzurepVM1-PublicIP')]",
                 "[resourceId('Microsoft.Network/virtualNetworks', 'DevAzurepVM1-VirtualNetwork')]"
@@ -127,7 +133,7 @@
             "name": "DevAzurepVM1",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2019-07-01",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkInterfaces', 'DevAzurepVM1-NetworkInterface')]"
             ],
