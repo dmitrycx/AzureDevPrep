@@ -47,5 +47,5 @@ jobs:
           subscriptionId: b6a799d5-67cd-4e7e-a7e5-32064ffc8ddd
           template: ./arm-templates/vm.json
           parameters: 
-            adminPassword="adminPassword"
+            adminPassword="DmitryPassword"
           deploynmentMode: incremental

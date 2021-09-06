@@ -140,7 +140,7 @@
                 },
                 "osProfile": {
                     "computerName": "DevAzurepVM1",
-                    "adminUsername": "admin",
+                    "adminUsername": "Dmitry",
                     "adminPassword": "[parameters('adminPassword')]"
                 },
                 "storageProfile": {
