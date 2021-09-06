@@ -49,7 +49,7 @@ jobs:
           template: ./arm-templates/storageaccount.json
           parameters: 
             sku=Standard_LRS
-            storageAccountName=AzureDevPrepstg001
+            storageAccountName=azuredevprepstg001
             location=${{env.location}}
           deploynmentMode: incremental
 
@@ -103,7 +103,7 @@ jobs:
           template: ./arm-templates/storageaccount.json
           parameters: 
             sku=Standard_LRS
-            storageAccountName=AzureDevPrepstg002
+            storageAccountName=azuredevprepstg002
             location=${{env.location}}
           deploynmentMode: incremental
 
