@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env: 
-      resource_group_name: rg-githubactions
+      resource_group_name: rg-stg-githubactions
       location: eastus
 
     environment: 
@@ -37,6 +37,8 @@ jobs:
           subscriptionId: ${{env.subscriptionId}}
           region: ${{env.location}}
           template: ./arm-templates/resourcegroup.json
+          parameters:
+            rgName=${{env.resource_group_name}}
           deploynmentName: ${{env.resource_group_name}}
 
       - name: Deploy Storage Account
@@ -91,6 +93,8 @@ jobs:
           subscriptionId: ${{env.subscriptionId}}
           region: ${{env.location}}
           template: ./arm-templates/resourcegroup.json
+          parameters:
+            rgName=${{env.resource_group_name}}
           deploynmentName: ${{env.resource_group_name}}
 
       - name: Deploy Storage Account
