@@ -21,7 +21,7 @@ jobs:
         with: 
           creds: ${{secrets.AZURE_CREDENTIALS}}
 
-      - name: Deploy RG ${{env.${{env.resource_group_name}}}}
+      - name: Deploy RG ${{env.resource_group_name}}
         uses: Azure/arm-deploy@v1
         with:
           scope: subscription
