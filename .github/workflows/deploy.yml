@@ -25,8 +25,8 @@ jobs:
         uses: Azure/arm-deploy@v1
         with:
           scope: subscription
-          subscriptionId: ${{env.subscriptionId}
-          region: ${{env.location}
+          subscriptionId: ${{env.subscriptionId}}
+          region: ${{env.location}}
           template: ./arm-templates/resourcegroup.json
           deploynmentName: ${{env.resource_group_name}}
 
@@ -47,9 +47,9 @@ jobs:
         with:
           scope: resourcegroup
           resourceGroupName: ${{env.resource_group_name}}
-          subscriptionId: ${{env.subscriptionId}
+          subscriptionId: ${{env.subscriptionId}}
           template: ./arm-templates/vm.json
           parameters: 
             adminPassword=${{secrets.VM_UBUNTU_ADMIN_PASSWORD}}
-            location="${{env.location}"
+            location="${{env.location}}"
           deploynmentMode: incremental
