@@ -36,7 +36,7 @@ jobs:
         with:
           scope: resourcegroup
           resourceGroupName: ${{env.resource_group_name}}
-          subscriptionId: ${{env.subscriptionId}
+          subscriptionId: ${{env.subscriptionId}}
           template: ./arm-templates/storageaccount.json
           parameters: 
             ./arm-templates/storageaccount.parameters.json
