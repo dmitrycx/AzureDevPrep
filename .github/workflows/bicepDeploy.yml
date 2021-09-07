@@ -48,7 +48,7 @@ jobs:
           scope: resourcegroup
           ResourceGroupName: ${{env.resource_group_name}}
           subscriptionId: ${{env.subscriptionId}}
-          template: ./bicep-templates/vNet.bicep
+          template: ./bicep-templates/vnet.bicep
           parameters: 
             vNetPrefix=stg
             location=${{env.location}}
@@ -91,7 +91,7 @@ jobs:
           scope: resourcegroup
           ResourceGroupName: ${{env.resource_group_name}}
           subscriptionId: ${{env.subscriptionId}}
-          template: ./bicep-templates/vNet.bicep
+          template: ./bicep-templates/vnet.bicep
           parameters: 
             vNetPrefix=prod
             location=${{env.location}}
