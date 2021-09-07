@@ -46,7 +46,7 @@ jobs:
         uses: Azure/arm-deploy@v1
         with: 
           scope: resourcegroup
-          resource_group_name: ${{env.resource_group_name}}
+          ResourceGroupName: ${{env.resource_group_name}}
           subscriptionId: ${{env.subscriptionId}}
           template: ./bicep-templates/vNet.bicep
           parameters: 
@@ -89,7 +89,7 @@ jobs:
         uses: Azure/arm-deploy@v1
         with: 
           scope: resourcegroup
-          resource_group_name: ${{env.resource_group_name}}
+          ResourceGroupName: ${{env.resource_group_name}}
           subscriptionId: ${{env.subscriptionId}}
           template: ./bicep-templates/vNet.bicep
           parameters: 
