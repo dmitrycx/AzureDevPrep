@@ -38,7 +38,7 @@ jobs:
           region: ${{env.location}}
           template: ./bicep-templates/resourcegroup.bicep
           parameters:
-            rgName=${{env.resource_group_name}} 
+            resourceGroupName=${{env.resource_group_name}} 
             location=${{env.location}}
           deploynmentName: ${{env.resource_group_name}}
 
@@ -81,7 +81,7 @@ jobs:
           region: ${{env.location}}
           template: ./bicep-templates/resourcegroup.bicep
           parameters:
-            rgName=${{env.resource_group_name}} 
+            resourceGroupName=${{env.resource_group_name}} 
             location=${{env.location}}
           deploynmentName: ${{env.resource_group_name}}
 
