@@ -1,6 +1,9 @@
-name: ARM-Deploy Job
+name: Bicep ARM-Deploy Job
 
 on:
+  push:
+    branches: 
+      - main
   workflow_dispatch:
 
 env:
@@ -9,11 +12,11 @@ env:
 jobs:
 
   armDeployStaging:
-    name: Deploy to Staging
+    name: Deploy to Staging 
     runs-on: ubuntu-latest
 
     env: 
-      resource_group_name: rg-stg-githubactions
+      resource_group_name: rg-stg-devlab
       location: eastus
 
     environment: 
@@ -33,30 +36,30 @@ jobs:
           scope: subscription
           subscriptionId: ${{env.subscriptionId}}
           region: ${{env.location}}
-          template: ./arm-templates/resourcegroup.json
+          template: ./bicep-templates/resourcegroup.bicep
           parameters:
-            rgName=${{env.resource_group_name}}
+            rgName=${{env.resource_group_name}} 
             location=${{env.location}}
           deploynmentName: ${{env.resource_group_name}}
 
-      - name: Deploy Virtual Machine
+      - name: Deploy vNet
         uses: Azure/arm-deploy@v1
-        with:
+        with: 
           scope: resourcegroup
-          resourceGroupName: ${{env.resource_group_name}}
+          resource_group_name: ${{env.resource_group_name}}
           subscriptionId: ${{env.subscriptionId}}
-          template: ./arm-templates/vm.json
+          template: ./bicep-templates/vNet.bicep
           parameters: 
-            adminPassword=${{secrets.VM_UBUNTU_ADMIN_PASSWORD}}
-            location="${{env.location}}"
-          deploynmentMode: incremental
+            vNetPrefix=stg
+            location=${{env.location}}
+
 
   armDeployProduction:
     name: Deploy to Production
     runs-on: ubuntu-latest
 
     env: 
-      resource_group_name: rg-prod-githubactions
+      resource_group_name: rg-prod-devlab
       location: westus2
     environment: 
       name: production
@@ -76,20 +79,19 @@ jobs:
           scope: subscription
           subscriptionId: ${{env.subscriptionId}}
           region: ${{env.location}}
-          template: ./arm-templates/resourcegroup.json
+          template: ./bicep-templates/resourcegroup.bicep
           parameters:
-            rgName=${{env.resource_group_name}}
+            rgName=${{env.resource_group_name}} 
             location=${{env.location}}
           deploynmentName: ${{env.resource_group_name}}
 
-      - name: Deploy Virtual Machine
+      - name: Deploy vNet
         uses: Azure/arm-deploy@v1
-        with:
+        with: 
           scope: resourcegroup
-          resourceGroupName: ${{env.resource_group_name}}
+          resource_group_name: ${{env.resource_group_name}}
           subscriptionId: ${{env.subscriptionId}}
-          template: ./arm-templates/vm.json
+          template: ./bicep-templates/vNet.bicep
           parameters: 
-            adminPassword=${{secrets.VM_UBUNTU_ADMIN_PASSWORD}}
-            location="${{env.location}}"
-          deploynmentMode: incremental
+            vNetPrefix=prod
+            location=${{env.location}}
