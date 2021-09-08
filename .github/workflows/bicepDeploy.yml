@@ -54,7 +54,7 @@ jobs:
             vmUsername=${{environment.vm_user_name}}
             vmPassword=${{secrets.VM_UBUNTU_ADMIN_PASSWORD}}
 
-  armDeployProduction:
+    armDeployProduction:
     name: Deploy to Production 
     runs-on: ubuntu-latest
 
