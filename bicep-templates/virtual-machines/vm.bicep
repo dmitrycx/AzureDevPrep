@@ -2,7 +2,7 @@ param namePrefix string
 
 @minLength(2)
 @maxLength(4)
-param vmPostfix string = '001'
+param namePostfix string = '001'
 
 @minLength(4)
 @maxLength(16)
@@ -31,7 +31,7 @@ param username string
 @secure()
 param password string
 
-var vmName = '${namePrefix}-VM-${vmPostfix}'
+var vmName = '${namePrefix}-VM-${namePostfix}'
 var vmUniqueName = '${vmName}-${uniqueString(resourceGroup().id)}'
 var storageSKU = 'Standard_LRS'//envSettingsModule.outputs.storageSKU
 
@@ -68,7 +68,7 @@ module nicModule './vm-nic.bicep' = {
 
 // Create storage for VM
 module stgModule '../storageaccount.bicep' = {
-  name: '${vmName}-stg'
+  name: '${namePrefix}${osName}-stg'
   params: {
     namePrefix: '${namePrefix}${osName}stg'
     location: location
