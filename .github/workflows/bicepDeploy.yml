@@ -48,9 +48,9 @@ jobs:
           scope: resourcegroup
           ResourceGroupName: ${{env.resource_group_name}}
           subscriptionId: ${{env.subscriptionId}}
-          template: ./bicep-templates/nsg.bicep
+          template: ./bicep-templates/main.bicep
           parameters: 
-            #environmentName=stage
+            environmentName=stage
             location=${{env.location}}
 
 
