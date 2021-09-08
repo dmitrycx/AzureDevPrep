@@ -1,6 +1,6 @@
 @minLength(3)
 @maxLength(11)
-param nsgPrefix string
+param nsgPrefix string='stg'
 
 @minLength(4)
 @maxLength(16)
