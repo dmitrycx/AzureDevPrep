@@ -40,58 +40,59 @@ jobs:
           parameters:
             resourceGroupName=${{env.resource_group_name}} 
             location=${{env.location}}
-          deploynmentName: ${{env.resource_group_name}}
+          deploymentName: ${{env.resource_group_name}}
 
-      - name: Deploy vNet
+      - name: Deploy Resources
         uses: Azure/arm-deploy@v1
         with: 
           scope: resourcegroup
           ResourceGroupName: ${{env.resource_group_name}}
           subscriptionId: ${{env.subscriptionId}}
-          template: ./bicep-templates/vnet.bicep
+          template: ./bicep-templates/main.bicep
           parameters: 
-            vNetPrefix=stg
+            environmentName=stage
             location=${{env.location}}
 
 
-  armDeployProduction:
-    name: Deploy to Production
-    runs-on: ubuntu-latest
 
-    env: 
-      resource_group_name: rg-prod-devlab
-      location: westus2
-    environment: 
-      name: production
+  # armDeployProduction:
+  #   name: Deploy to Production
+  #   runs-on: ubuntu-latest
 
-    needs: armDeployStaging
-    steps:
-      - uses: actions/checkout@v2
+  #   env: 
+  #     resource_group_name: rg-prod-devlab
+  #     location: westus2
+  #   environment: 
+  #     name: production
 
-      - name: Azure Login
-        uses: Azure/login@v1
-        with: 
-          creds: ${{secrets.AZURE_CREDENTIALS}}
+  #   needs: armDeployStaging
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Deploy RG ${{env.resource_group_name}}
-        uses: Azure/arm-deploy@v1
-        with:
-          scope: subscription
-          subscriptionId: ${{env.subscriptionId}}
-          region: ${{env.location}}
-          template: ./bicep-templates/resourcegroup.bicep
-          parameters:
-            resourceGroupName=${{env.resource_group_name}} 
-            location=${{env.location}}
-          deploynmentName: ${{env.resource_group_name}}
+  #     - name: Azure Login
+  #       uses: Azure/login@v1
+  #       with: 
+  #         creds: ${{secrets.AZURE_CREDENTIALS}}
 
-      - name: Deploy vNet
-        uses: Azure/arm-deploy@v1
-        with: 
-          scope: resourcegroup
-          ResourceGroupName: ${{env.resource_group_name}}
-          subscriptionId: ${{env.subscriptionId}}
-          template: ./bicep-templates/vnet.bicep
-          parameters: 
-            vNetPrefix=prod
-            location=${{env.location}}
+  #     - name: Deploy RG ${{env.resource_group_name}}
+  #       uses: Azure/arm-deploy@v1
+  #       with:
+  #         scope: subscription
+  #         subscriptionId: ${{env.subscriptionId}}
+  #         region: ${{env.location}}
+  #         template: ./bicep-templates/resourcegroup.bicep
+  #         parameters:
+  #           resourceGroupName=${{env.resource_group_name}} 
+  #           location=${{env.location}}
+  #         deploymentName: ${{env.resource_group_name}}
+
+  #     - name: Deploy vNet
+  #       uses: Azure/arm-deploy@v1
+  #       with: 
+  #         scope: resourcegroup
+  #         ResourceGroupName: ${{env.resource_group_name}}
+  #         subscriptionId: ${{env.subscriptionId}}
+  #         template: ./bicep-templates/vnet.bicep
+  #         parameters: 
+  #           vNetPrefix=prod
+  #           location=${{env.location}}
