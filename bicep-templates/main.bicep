@@ -1,66 +1,71 @@
-// DONE: create vnet
-// DONE: create public ip
-
-// create nat
-// create nsg
-
-// create networkInterfaceName
-// create vm win
-// create vm linux
-
-// Extra : https://docs.microsoft.com/en-us/azure/virtual-machines/windows/tutorial-load-balancer
-
 @minLength(4)
 @maxLength(16)
 param location string = resourceGroup().location
 
 param resourcePrefix string = 'devlab'
 
-@allowed([
-  'stage'
-  'prod'
-])
-param environmentName string = 'stage'
+param vmUsername string
+param vmPassword string
 
-module envSettingsModule 'environmentsettings.bicep' = {
-  name: 'SettingsAssignment'
-  params:{
-    environmentName: environmentName
-  }
-}
+// @allowed([
+//   'stage'
+//   'prod'
+// ])
+// param environmentName string = 'stage'
 
-module stgModule 'storageaccount.bicep' = {
-  name: 'storageDeploy'
-  params:{
-    storagePrefix: resourcePrefix
-    location: location
-    storageSKU: envSettingsModule.outputs.storageSKU
-  }
-}
-
-module publicIPModule 'publicip.bicep' = {
-  name: 'publicIPDeploy'
-  params:{
-    ipAddressPrefix: resourcePrefix
-    location: location
-  }
-}
-
-module nsgModule 'nsg.bicep' = {
-  name: 'networkSecurityGroupDeploy'
-  params:{
-    nsgPrefix: resourcePrefix
-    location: location
-  }
-}
-
-// module vNetModule 'vnet.bicep' = {
-//   name: 'virtualNetworkDeploy'
+// module envSettingsModule './parameters/environmentsettings.bicep' = {
+//   name: 'SettingsAssignment'
 //   params:{
-//     vNetPrefix: 'DevLab'
+//     environmentName: environmentName
+//   }
+// }
+
+module vNetModule './virtual-network/vnet.bicep' = {
+  name: 'virtualNetworkDeploy'
+  params:{
+    vNetPrefix: resourcePrefix
+    location: location
+  }
+}
+
+module vmModule './virtual-machines/general/vm.bicep' = {
+  name: 'virtualMachineDeploy'
+  params:{
+    namePrefix: resourcePrefix
+    location: location
+    vmSize: 'Standard_A2_v2'
+    subnetId: vNetModule.outputs.subnetId
+    username: vmUsername
+    password: vmPassword
+  }
+}
+
+// module stgModule 'storageaccount.bicep' = {
+//   name: 'storageDeploy'
+//   params:{
+//     storagePrefix: resourcePrefix
+//     location: location
+//     storageSKU: envSettingsModule.outputs.storageSKU
+//   }
+// }
+
+// module publicIPModule 'publicip.bicep' = {
+//   name: 'publicIPDeploy'
+//   params:{
+//     ipAddressPrefix: resourcePrefix
 //     location: location
 //   }
 // }
+
+// module nsgModule 'nsg.bicep' = {
+//   name: 'networkSecurityGroupDeploy'
+//   params:{
+//     nsgPrefix: resourcePrefix
+//     location: location
+//   }
+// }
+
+
 
 // module nicModule 'nic.bicep' = {
 //   name: 'networkInterfaceConnectorDeploy'
@@ -69,3 +74,6 @@ module nsgModule 'nsg.bicep' = {
 //     location: location
 //   }
 // }
+
+
+output vmName string = vmModule.name

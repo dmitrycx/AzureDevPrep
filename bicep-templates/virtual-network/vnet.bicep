@@ -6,7 +6,8 @@ param vNetPrefix string
 @maxLength(16)
 param location string = resourceGroup().location
 
-var vNetName = '${vNetPrefix}-vnet'
+var vNetName = '${vNetPrefix}-vnet-${uniqueString(resourceGroup().id)}'
+var subnetName = 'main-subnet'
 
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
   name: vNetName
@@ -19,17 +20,15 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
     }
     subnets: [
       {
-        name: 'Subnet-1'
+        name: subnetName
         properties: {
           addressPrefix: '10.0.0.0/24'
-        }
-      }
-      {
-        name: 'Subnet-2'
-        properties: {
-          addressPrefix: '10.0.1.0/24'
         }
       }
     ]
   }
 }
+
+output vnetId string = virtualNetwork.id
+output subnetId string = '${virtualNetwork.id}/subnets/${subnetName}'
+output subnetName string = subnetName

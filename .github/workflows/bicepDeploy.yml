@@ -52,6 +52,8 @@ jobs:
           parameters: 
             environmentName=stage
             location=${{env.location}}
+            vmUsername=devlabuser
+            vmPassword=${{secrets.VM_UBUNTU_ADMIN_PASSWORD}}
 
 
 
