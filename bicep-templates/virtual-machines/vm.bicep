@@ -8,11 +8,11 @@ param namePostfix string = '001'
 @maxLength(16)
 param location string = resourceGroup().location
 
-@allowed([
-  'stage'
-  'prod'
-])
-param environmentName string = 'stage'
+// @allowed([
+//   'stage'
+//   'prod'
+// ])
+// param environmentName string = 'stage'
 
 @allowed([
   'win'
