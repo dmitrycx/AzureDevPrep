@@ -19,6 +19,8 @@ module nsgRuleRDP 'nsgrule.bicep' = {
     nsgRuleName: 'AllowRDP'
     destinationPortRange: '3389'
     priority: 100
+    location: location
+    nsgId:networkSecurityGroup.id
   }
 }
   
@@ -28,5 +30,7 @@ module nsgRuleSSH 'nsgrule.bicep' = {
     nsgRuleName: 'AllowSSH'
     destinationPortRange: '22'
     priority: 110
+    location: location
+    nsgId:networkSecurityGroup.id
   }
 }
