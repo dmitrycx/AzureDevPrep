@@ -7,11 +7,11 @@ param resourcePrefix string = 'devlab'
 param vmUsername string
 param vmPassword string
 
-// @allowed([
-//   'stage'
-//   'prod'
-// ])
-// param environmentName string = 'stage'
+@allowed([
+  'stage'
+  'prod'
+])
+param environmentName string = 'stage'
 
 // module envSettingsModule './parameters/environmentsettings.bicep' = {
 //   name: 'SettingsAssignment'
@@ -28,12 +28,14 @@ module vNetModule './virtual-network/vnet.bicep' = {
   }
 }
 
-module vmModule './virtual-machines/general/vm.bicep' = {
+module vmModule './virtual-machines/vm.bicep' = {
   name: 'virtualMachineDeploy'
   params:{
     namePrefix: resourcePrefix
     location: location
-    vmSize: 'Standard_A2_v2'
+    //vmSize: 'Standard_A2_v2'//envSettingsModule.outputs.vmSize
+    osName: 'linux'
+    environmentName: environmentName
     subnetId: vNetModule.outputs.subnetId
     username: vmUsername
     password: vmPassword
@@ -64,16 +66,5 @@ module vmModule './virtual-machines/general/vm.bicep' = {
 //     location: location
 //   }
 // }
-
-
-
-// module nicModule 'nic.bicep' = {
-//   name: 'networkInterfaceConnectorDeploy'
-//   params:{
-//     nicPrefix: 'DevLab'
-//     location: location
-//   }
-// }
-
 
 output vmName string = vmModule.name

@@ -17,7 +17,9 @@ jobs:
 
     env: 
       resource_group_name: rg-stg-devlab
+      vm_user_name: devlabuser
       location: eastus
+      environment_name: stage
 
     environment: 
       name: staging
@@ -50,9 +52,9 @@ jobs:
           subscriptionId: ${{env.subscriptionId}}
           template: ./bicep-templates/main.bicep
           parameters: 
-            #environmentName=stage
+            environmentName=environment_name
             location=${{env.location}}
-            vmUsername=devlabuser
+            vmUsername=vm_user_name
             vmPassword=${{secrets.VM_UBUNTU_ADMIN_PASSWORD}}
 
 
