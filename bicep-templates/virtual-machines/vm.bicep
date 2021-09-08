@@ -87,9 +87,9 @@ resource vmModule 'Microsoft.Compute/virtualMachines@2020-12-01' = {
         }
       }
       imageReference: {
-        publisher: osSettingsModule.outputs.publisher
-        offer: osSettingsModule.outputs.offer
-        sku: osSettingsModule.outputs.sku
+        publisher: 'Canonical'//osSettingsModule.outputs.publisher
+        offer: 'UbuntuServer'//osSettingsModule.outputs.offer
+        sku: '16.04-LTS'//osSettingsModule.outputs.sku
         version: 'latest'
       }
     }
