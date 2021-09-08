@@ -8,11 +8,11 @@ param namePostfix string = '001'
 @maxLength(16)
 param location string = resourceGroup().location
 
-// @allowed([
-//   'stage'
-//   'prod'
-// ])
-// param environmentName string = 'stage'
+@allowed([
+  'stage'
+  'prod'
+])
+param environmentName string = 'stage'
 
 @allowed([
   'win'
@@ -20,22 +20,20 @@ param location string = resourceGroup().location
 ])
 param osName string
 
-@allowed([
-  'Standard_A2_v2'
-  'Standard_A4_v2'
-])
-param vmSize string = 'Standard_A2_v2'//envSettingsModule.outputs.vmSize
-
 param subnetId string
 param username string
 @secure()
 param password string
 
 var vmName = '${namePrefix}-VM-${namePostfix}'
-var storageSKU = 'Standard_LRS'//envSettingsModule.outputs.storageSKU
+
+//temp while env-settings do not work
+var isProd = environmentName == 'prod'
+var vmSize = isProd ? 'Standard_A4_v2' : 'Standard_A2_v2'//envSettingsModule.outputs.vmSize
+var storageSKU = isProd ? 'Premium_LRS' : 'Standard_LRS'//envSettingsModule.outputs.storageSKU
 
 //temp while os-settings do not work
-var isLinux = osName == 'Linux'
+var isLinux = osName == 'linux'
 var publisher = isLinux ? 'Canonical' : 'MicrosoftWindowsServer'
 var offer = isLinux ? 'UbuntuServer' : 'WindowsServer'
 var sku = isLinux ? '16.04-LTS' : '2012-R2-Datacenter'

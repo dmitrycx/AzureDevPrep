@@ -1,0 +1,98 @@
+name: Bicep ARM-Deploy Job
+
+on:
+  push:
+    branches: 
+      - main
+  workflow_dispatch:
+
+environment:
+  subscriptionId: ${{secrets.SUBSCRIPTION_ID}}
+
+jobs:
+
+  armDeployStaging:
+    name: Deploy to Staging 
+    runs-on: ubuntu-latest
+
+    environment: 
+      name: stage
+      resource_group_name: rg-stage-devlab
+      vm_user_name: devlabuser
+      location: eastus
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: Azure/login@v1
+        with: 
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+
+      - name: Deploy RG ${{environment.resource_group_name}}
+        uses: Azure/arm-deploy@v1
+        with:
+          scope: subscription
+          subscriptionId: ${{environment.subscriptionId}}
+          region: ${{environment.location}}
+          template: ./bicep-templates/resourcegroup.bicep
+          parameters:
+            resourceGroupName=${{environment.resource_group_name}} 
+            location=${{environment.location}}
+          deploymentName: ${{environment.resource_group_name}}
+
+      - name: Deploy Resources
+        uses: Azure/arm-deploy@v1
+        with: 
+          scope: resourcegroup
+          ResourceGroupName: ${{environment.resource_group_name}}
+          subscriptionId: ${{environment.subscriptionId}}
+          template: ./bicep-templates/main.bicep
+          parameters: 
+            environmentName=${{environment.environment_name}}
+            location=${{environment.location}}
+            vmUsername=${{environment.vm_user_name}}
+            vmPassword=${{secrets.VM_UBUNTU_ADMIN_PASSWORD}}
+
+  armDeployProduction:
+    name: Deploy to Production 
+    runs-on: ubuntu-latest
+
+    environment:
+      name: prod
+      resource_group_name: rg-prod-devlab
+      vm_user_name: devlabuser
+      location: westus2
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: Azure/login@v1
+        with: 
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+
+      - name: Deploy RG ${{environment.resource_group_name}}
+        uses: Azure/arm-deploy@v1
+        with:
+          scope: subscription
+          subscriptionId: ${{environment.subscriptionId}}
+          region: ${{environment.location}}
+          template: ./bicep-templates/resourcegroup.bicep
+          parameters:
+            resourceGroupName=${{environment.resource_group_name}} 
+            location=${{environment.location}}
+          deploymentName: ${{environment.resource_group_name}}
+
+      - name: Deploy Resources
+        uses: Azure/arm-deploy@v1
+        with: 
+          scope: resourcegroup
+          ResourceGroupName: ${{environment.resource_group_name}}
+          subscriptionId: ${{environment.subscriptionId}}
+          template: ./bicep-templates/main.bicep
+          parameters: 
+            environmentName=${{environment.environment_name}}
+            location=${{environment.location}}
+            vmUsername=${{environment.vm_user_name}}
+            vmPassword=${{secrets.VM_UBUNTU_ADMIN_PASSWORD}}
