@@ -31,7 +31,7 @@ param username string
 @secure()
 param password string
 
-var vmName = '${namePrefix}VM${vmPostfix}'
+var vmName = '${namePrefix}-VM-${vmPostfix}'
 var vmUniqueName = '${vmName}-${uniqueString(resourceGroup().id)}'
 var storageSKU = 'Standard_LRS'//envSettingsModule.outputs.storageSKU
 
@@ -70,7 +70,7 @@ module nicModule './vm-nic.bicep' = {
 module stgModule '../storageaccount.bicep' = {
   name: '${vmName}-stg'
   params: {
-    namePrefix: vmName
+    namePrefix: '${namePrefix}${osName}stg'
     location: location
     storageSKU: storageSKU
   }
