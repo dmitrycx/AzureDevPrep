@@ -8,6 +8,7 @@ on:
 
 env:
   subscriptionId: ${{secrets.SUBSCRIPTION_ID}}
+  vm_user_name: devlabuser
 
 jobs:
 
@@ -15,11 +16,12 @@ jobs:
     name: Deploy to Staging 
     runs-on: ubuntu-latest
 
-    env: 
-      name: stage
+    env:
       resource_group_name: rg-stage-devlab
-      vm_user_name: devlabuser
       location: eastus
+
+    environment:
+      name: stage
 
     steps:
       - uses: actions/checkout@v2
@@ -59,11 +61,11 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      name: prod
       resource_group_name: rg-prod-devlab
-      vm_user_name: devlabuser
       location: westus2
-    
+    environment:
+      name: prod
+      
     needs: armDeployStaging
     steps:
       - uses: actions/checkout@v2

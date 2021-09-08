@@ -11,7 +11,7 @@ var environmentSettings = {
   }
   prod: {
     storageSKU: 'Premium_LRS'
-    vmSize: 'Standard_A4_v2'
+    vmSize: 'Standard_B1s'
   }
 }
 

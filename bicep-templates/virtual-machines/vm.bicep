@@ -29,7 +29,7 @@ var vmName = '${namePrefix}-VM-${namePostfix}'
 
 //temp while env-settings do not work
 var isProd = environmentName == 'prod'
-var vmSize = isProd ? 'Standard_A4_v2' : 'Standard_A2_v2'//envSettingsModule.outputs.vmSize
+var vmSize = isProd ? 'Standard_B1s' : 'Standard_A2_v2'//envSettingsModule.outputs.vmSize
 var storageSKU = isProd ? 'Premium_LRS' : 'Standard_LRS'//envSettingsModule.outputs.storageSKU
 
 //temp while os-settings do not work
