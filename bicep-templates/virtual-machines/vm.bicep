@@ -41,21 +41,21 @@ var publisher = isLinux ? 'Canonical' : 'MicrosoftWindowsServer'
 var offer = isLinux ? 'UbuntuServer' : 'WindowsServer'
 var sku = isLinux ? '16.04-LTS' : '2012-R2-Datacenter'
 
-// get settings dependent on env
-module envSettingsModule '../parameters/environment-settings.bicep' = {
-  name: 'EnvSettings'
-  params:{
-    environmentName: environmentName
-  }
-}
+// // get settings dependent on env
+// module envSettingsModule '../parameters/environment-settings.bicep' = {
+//   name: 'EnvSettings'
+//   params:{
+//     environmentName: environmentName
+//   }
+// }
 
-// get settings dependent on VM os type
-module osSettingsModule '../parameters/os-settings.bicep' = {
-  name: 'OsSettings'
-  params:{
-    osName: osName
-  }
-}
+// // get settings dependent on VM os type
+// module osSettingsModule '../parameters/os-settings.bicep' = {
+//   name: 'OsSettings'
+//   params:{
+//     osName: osName
+//   }
+// }
 
 // Bring in the nic
 module nicModule './vm-nic.bicep' = {
@@ -68,7 +68,7 @@ module nicModule './vm-nic.bicep' = {
 
 // Create storage for VM
 module stgModule '../storageaccount.bicep' = {
-  name: '${namePrefix}${osName}-stg'
+  name: '${namePrefix}${osName}stg'
   params: {
     namePrefix: '${namePrefix}${osName}stg'
     location: location
