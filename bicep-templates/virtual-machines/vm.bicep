@@ -62,9 +62,9 @@ module nicModule './vm-nic.bicep' = {
 
 // Create storage for VM
 module stgModule '../storageaccount.bicep' = {
-  name: 'VM-stg'
+  name: '${namePrefix}-stg'
   params: {
-    namePrefix: vmName
+    namePrefix: namePrefix
     location: location
     storageSKU: storageSKU
   }
