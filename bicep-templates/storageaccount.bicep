@@ -12,10 +12,10 @@ param location string = resourceGroup().location
 ])
 param storageSKU string = 'Standard_LRS'
 
-var uniqueStorageName = '${namePrefix}stg}'
+var storageName = '${namePrefix}stg'
 
 resource stg 'Microsoft.Storage/storageAccounts@2021-02-01' = {
-  name: uniqueStorageName
+  name: storageName
   location: location
   kind: 'StorageV2'
   sku: {
