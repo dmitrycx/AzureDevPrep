@@ -16,25 +16,25 @@ param location string = resourceGroup().location
 
 param resourcePrefix string = 'devlab'
 
-// @allowed([
-//   'stage'
-//   'prod'
-// ])
-// param environmentName string = 'stage'
+@allowed([
+  'stage'
+  'prod'
+])
+param environmentName string = 'stage'
 
-// module envSettingsModule 'environmentsettings.bicep' = {
-//   name: 'SettingsAssignment'
-//   params:{
-//     environmentName: environmentName
-//   }
-// }
+module envSettingsModule 'environmentsettings.bicep' = {
+  name: 'SettingsAssignment'
+  params:{
+    environmentName: environmentName
+  }
+}
 
 module stgModule 'storageaccount.bicep' = {
   name: 'storageDeploy'
   params:{
     storagePrefix: resourcePrefix
     location: location
-    storageSKU: 'Standard_LRS'
+    storageSKU: envSettingsModule.outputs.storageSKU
   }
 }
 
