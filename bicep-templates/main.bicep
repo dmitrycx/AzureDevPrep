@@ -41,18 +41,18 @@ module stgModule 'storageaccount.bicep' = {
 module publicIPModule 'publicip.bicep' = {
   name: 'publicIPDeploy'
   params:{
-    ipAddressPrefix: 'DevLab'
+    ipAddressPrefix: resourcePrefix
     location: location
   }
 }
 
-// module nsgModule 'nsg.bicep' = {
-//   name: 'networkSecurityGroupDeploy'
-//   params:{
-//     nsgPrefix: 'DevLab'
-//     location: location
-//   }
-// }
+module nsgModule 'nsg.bicep' = {
+  name: 'networkSecurityGroupDeploy'
+  params:{
+    nsgPrefix: resourcePrefix
+    location: location
+  }
+}
 
 // module vNetModule 'vnet.bicep' = {
 //   name: 'virtualNetworkDeploy'
