@@ -35,7 +35,7 @@ module vmLinuxModule './virtual-machines/vm.bicep' = {
     namePostfix:'001'
     location: location
     osName: 'linux'
-    environmentName: environmentName
+    //environmentName: environmentName
     subnetId: vNetModule.outputs.subnetId
     username: vmUsername
     password: vmPassword
@@ -49,7 +49,7 @@ module vmWindowsModule './virtual-machines/vm.bicep' = {
     namePostfix:'002'
     location: location
     osName: 'win'
-    environmentName: environmentName
+    //environmentName: environmentName
     subnetId: vNetModule.outputs.subnetId
     username: vmUsername
     password: vmPassword

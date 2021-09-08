@@ -2,7 +2,7 @@
   'stage'
   'prod'
 ])
-param environmentName string
+param environmentName string = 'stage'
 
 var environmentSettings = {
   stage: {
