@@ -14,6 +14,8 @@
 @maxLength(16)
 param location string = resourceGroup().location
 
+param resourcePrefix string = 'devlab'
+
 // @allowed([
 //   'stage'
 //   'prod'
@@ -30,7 +32,7 @@ param location string = resourceGroup().location
 module stgModule 'storageaccount.bicep' = {
   name: 'storageDeploy'
   params:{
-    storagePrefix: 'DevLab'
+    storagePrefix: resourcePrefix
     location: location
     storageSKU: 'Standard_LRS'
   }
