@@ -38,13 +38,13 @@ module stgModule 'storageaccount.bicep' = {
   }
 }
 
-// module publicIPModule 'publicip.bicep' = {
-//   name: 'publicIPDeploy'
-//   params:{
-//     ipAddressPrefix: 'DevLab'
-//     location: location
-//   }
-// }
+module publicIPModule 'publicip.bicep' = {
+  name: 'publicIPDeploy'
+  params:{
+    ipAddressPrefix: 'DevLab'
+    location: location
+  }
+}
 
 // module nsgModule 'nsg.bicep' = {
 //   name: 'networkSecurityGroupDeploy'
