@@ -28,12 +28,11 @@ module vNetModule './virtual-network/vnet.bicep' = {
   }
 }
 
-module vmModule './virtual-machines/vm.bicep' = {
-  name: 'virtualMachineDeploy'
+module vmLinuxModule './virtual-machines/vm.bicep' = {
+  name: 'vmLinuxDeploy'
   params:{
     namePrefix: resourcePrefix
     location: location
-    //vmSize: 'Standard_A2_v2'//envSettingsModule.outputs.vmSize
     osName: 'linux'
     environmentName: environmentName
     subnetId: vNetModule.outputs.subnetId
@@ -42,29 +41,15 @@ module vmModule './virtual-machines/vm.bicep' = {
   }
 }
 
-// module stgModule 'storageaccount.bicep' = {
-//   name: 'storageDeploy'
-//   params:{
-//     storagePrefix: resourcePrefix
-//     location: location
-//     storageSKU: envSettingsModule.outputs.storageSKU
-//   }
-// }
-
-// module publicIPModule 'publicip.bicep' = {
-//   name: 'publicIPDeploy'
-//   params:{
-//     ipAddressPrefix: resourcePrefix
-//     location: location
-//   }
-// }
-
-// module nsgModule 'nsg.bicep' = {
-//   name: 'networkSecurityGroupDeploy'
-//   params:{
-//     nsgPrefix: resourcePrefix
-//     location: location
-//   }
-// }
-
-output vmName string = vmModule.name
+module vmWindowsModule './virtual-machines/vm.bicep' = {
+  name: 'vmWindowsDeploy'
+  params:{
+    namePrefix: resourcePrefix
+    location: location
+    osName: 'windows'
+    environmentName: environmentName
+    subnetId: vNetModule.outputs.subnetId
+    username: vmUsername
+    password: vmPassword
+  }
+}

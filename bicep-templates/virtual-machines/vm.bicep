@@ -31,9 +31,15 @@ param username string
 @secure()
 param password string
 
-
-var vmName = '${namePrefix}-VM-${vmPostfix}-${uniqueString(resourceGroup().id)}'
+var vmName = '${namePrefix}VM${vmPostfix}'
+var vmUniqueName = '${vmName}-${uniqueString(resourceGroup().id)}'
 var storageSKU = 'Standard_LRS'//envSettingsModule.outputs.storageSKU
+
+//temp while os-settings do not work
+var isLinux = osName == 'Linux'
+var publisher = isLinux ? 'Canonical' : 'MicrosoftWindowsServer'
+var offer = isLinux ? 'UbuntuServer' : 'WindowsServer'
+var sku = isLinux ? '16.04-LTS' : '2012-R2-Datacenter'
 
 // get settings dependent on env
 module envSettingsModule '../parameters/environment-settings.bicep' = {
@@ -62,16 +68,16 @@ module nicModule './vm-nic.bicep' = {
 
 // Create storage for VM
 module stgModule '../storageaccount.bicep' = {
-  name: '${namePrefix}-stg'
+  name: '${vmName}-stg'
   params: {
-    namePrefix: namePrefix
+    namePrefix: vmName
     location: location
     storageSKU: storageSKU
   }
 }
 
 resource vmModule 'Microsoft.Compute/virtualMachines@2020-12-01' = {
-  name: vmName
+  name: vmUniqueName
   location: location
   properties: {
     hardwareProfile: {
@@ -85,14 +91,14 @@ resource vmModule 'Microsoft.Compute/virtualMachines@2020-12-01' = {
         }
       }
       imageReference: {
-        publisher: 'Canonical'//osSettingsModule.outputs.publisher
-        offer: 'UbuntuServer'//osSettingsModule.outputs.offer
-        sku: '16.04-LTS'//osSettingsModule.outputs.sku
+        publisher: publisher//osSettingsModule.outputs.publisher
+        offer: offer//osSettingsModule.outputs.offer
+        sku: sku//osSettingsModule.outputs.sku
         version: 'latest'
       }
     }
     osProfile: {
-      computerName: vmName
+      computerName: vmUniqueName
       adminUsername: username
       adminPassword: password
     }
