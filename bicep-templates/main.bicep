@@ -7,11 +7,11 @@ param resourcePrefix string = 'devlab'
 param vmUsername string
 param vmPassword string
 
-@allowed([
-  'stage'
-  'prod'
-])
-param environmentName string = 'stage'
+// @allowed([
+//   'stage'
+//   'prod'
+// ])
+// param environmentName string = 'stage'
 
 // module envSettingsModule './parameters/environmentsettings.bicep' = {
 //   name: 'SettingsAssignment'
