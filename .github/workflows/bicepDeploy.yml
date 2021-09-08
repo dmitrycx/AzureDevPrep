@@ -52,7 +52,7 @@ jobs:
             environmentName=${{env.name}}
             location=${{env.location}}
             vmUsername=${{env.vm_user_name}}
-            vmPassword=${{secrets.VM_UBUNTU_ADMIN_PASSWORD}}
+            vmPassword=${{secrets.VM_ADMIN_PASSWORD}}
 
   armDeployProduction:
     name: Deploy to Production 
@@ -63,7 +63,8 @@ jobs:
       resource_group_name: rg-prod-devlab
       vm_user_name: devlabuser
       location: westus2
-
+    
+    needs: armDeployStaging
     steps:
       - uses: actions/checkout@v2
 
@@ -95,4 +96,4 @@ jobs:
             environmentName=${{env.name}}
             location=${{env.location}}
             vmUsername=${{env.vm_user_name}}
-            vmPassword=${{secrets.VM_UBUNTU_ADMIN_PASSWORD}}
+            vmPassword=${{secrets.VM_ADMIN_PASSWORD}}
