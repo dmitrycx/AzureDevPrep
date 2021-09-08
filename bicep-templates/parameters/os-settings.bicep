@@ -1,11 +1,11 @@
 @allowed([
-  'windows'
+  'win'
   'linux'
 ])
 param osName string
 
 var environmentSettings = {
-  windows: {
+  win: {
     publisher: 'MicrosoftWindowsServer'
     offer: 'WindowsServer'
     sku: '2012-R2-Datacenter'

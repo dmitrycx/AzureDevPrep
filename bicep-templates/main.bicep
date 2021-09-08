@@ -46,7 +46,7 @@ module vmWindowsModule './virtual-machines/vm.bicep' = {
   params:{
     namePrefix: resourcePrefix
     location: location
-    osName: 'windows'
+    osName: 'win'
     environmentName: environmentName
     subnetId: vNetModule.outputs.subnetId
     username: vmUsername

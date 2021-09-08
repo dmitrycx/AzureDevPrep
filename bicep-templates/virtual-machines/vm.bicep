@@ -15,7 +15,7 @@ param location string = resourceGroup().location
 param environmentName string = 'stage'
 
 @allowed([
-  'windows'
+  'win'
   'linux'
 ])
 param osName string
