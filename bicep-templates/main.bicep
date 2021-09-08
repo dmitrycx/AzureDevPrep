@@ -36,34 +36,34 @@ module stgModule 'storageaccount.bicep' = {
   }
 }
 
-module publicIPModule 'publicip.bicep' = {
-  name: 'publicIPDeploy'
-  params:{
-    ipAddressPrefix: 'DevLab'
-    location: location
-  }
-}
+// module publicIPModule 'publicip.bicep' = {
+//   name: 'publicIPDeploy'
+//   params:{
+//     ipAddressPrefix: 'DevLab'
+//     location: location
+//   }
+// }
 
-module nsgModule 'nsg.bicep' = {
-  name: 'networkSecurityGroupDeploy'
-  params:{
-    nsgPrefix: 'DevLab'
-    location: location
-  }
-}
+// module nsgModule 'nsg.bicep' = {
+//   name: 'networkSecurityGroupDeploy'
+//   params:{
+//     nsgPrefix: 'DevLab'
+//     location: location
+//   }
+// }
 
-module vNetModule 'vnet.bicep' = {
-  name: 'virtualNetworkDeploy'
-  params:{
-    vNetPrefix: 'DevLab'
-    location: location
-  }
-}
+// module vNetModule 'vnet.bicep' = {
+//   name: 'virtualNetworkDeploy'
+//   params:{
+//     vNetPrefix: 'DevLab'
+//     location: location
+//   }
+// }
 
-module nicModule 'nic.bicep' = {
-  name: 'networkInterfaceConnectorDeploy'
-  params:{
-    nicPrefix: 'DevLab'
-    location: location
-  }
-}
+// module nicModule 'nic.bicep' = {
+//   name: 'networkInterfaceConnectorDeploy'
+//   params:{
+//     nicPrefix: 'DevLab'
+//     location: location
+//   }
+// }
