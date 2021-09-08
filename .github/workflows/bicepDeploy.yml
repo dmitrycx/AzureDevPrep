@@ -52,7 +52,7 @@ jobs:
           subscriptionId: ${{env.subscriptionId}}
           template: ./bicep-templates/main.bicep
           parameters: 
-            environmentName=${{env.environment_name}}
+            #environmentName=${{env.environment_name}}
             location=${{env.location}}
             vmUsername=${{env.vm_user_name}}
             vmPassword=${{secrets.VM_UBUNTU_ADMIN_PASSWORD}}
