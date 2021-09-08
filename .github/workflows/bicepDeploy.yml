@@ -19,6 +19,7 @@ jobs:
     env:
       resource_group_name: rg-stage-devlab
       location: eastus
+      name: stage
 
     environment:
       name: stage
@@ -51,7 +52,7 @@ jobs:
           subscriptionId: ${{env.subscriptionId}}
           template: ./bicep-templates/main.bicep
           parameters:   
-            environmentName=${{environment.name}}
+            environmentName=${{env.name}}
             location=${{env.location}}
             vmUsername=${{env.vm_user_name}}
             vmPassword=${{secrets.VM_ADMIN_PASSWORD}}
@@ -63,6 +64,7 @@ jobs:
     env:
       resource_group_name: rg-prod-devlab
       location: westus2
+      name: stage
     environment:
       name: prod
 
@@ -95,7 +97,7 @@ jobs:
           subscriptionId: ${{env.subscriptionId}}
           template: ./bicep-templates/main.bicep
           parameters: 
-            environmentName=${{environment.name}}
+            environmentName=${{env.name}}
             location=${{env.location}}
             vmUsername=${{env.vm_user_name}}
             vmPassword=${{secrets.VM_ADMIN_PASSWORD}}
