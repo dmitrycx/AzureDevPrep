@@ -32,7 +32,6 @@ param username string
 param password string
 
 var vmName = '${namePrefix}-VM-${namePostfix}'
-var vmUniqueName = '${vmName}-${uniqueString(resourceGroup().id)}'
 var storageSKU = 'Standard_LRS'//envSettingsModule.outputs.storageSKU
 
 //temp while os-settings do not work
@@ -77,7 +76,7 @@ module stgModule '../storageaccount.bicep' = {
 }
 
 resource vmModule 'Microsoft.Compute/virtualMachines@2020-12-01' = {
-  name: vmUniqueName
+  name: vmName
   location: location
   properties: {
     hardwareProfile: {
@@ -98,7 +97,7 @@ resource vmModule 'Microsoft.Compute/virtualMachines@2020-12-01' = {
       }
     }
     osProfile: {
-      computerName: vmUniqueName
+      computerName: vmName
       adminUsername: username
       adminPassword: password
     }
