@@ -64,7 +64,7 @@ jobs:
     env:
       resource_group_name: rg-prod-devlab
       location: westus2
-      name: stage
+      name: prod
     environment:
       name: prod
 
