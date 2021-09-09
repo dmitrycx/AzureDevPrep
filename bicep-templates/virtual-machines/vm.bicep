@@ -73,9 +73,9 @@ resource vmModule 'Microsoft.Compute/virtualMachines@2020-12-01' = {
         }
       }
       imageReference: {
-        publisher: osSettingsModule.outputs.publisher
-        offer: osSettingsModule.outputs.offer
-        sku: osSettingsModule.outputs.sku
+        publisher: any(osSettingsModule.outputs.publisher)
+        offer: any(osSettingsModule.outputs.offer)
+        sku: any(osSettingsModule.outputs.sku)
         version: 'latest'
       }
     }
