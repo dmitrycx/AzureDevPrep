@@ -29,8 +29,8 @@ var vmName = '${namePrefix}-VM-${namePostfix}'
 
 //temp while env-settings do not work
 var isProd = environmentName == 'prod'
-var vmSize = isProd ? 'Standard_B1s' : 'Standard_A2_v2'//envSettingsModule.outputs.vmSize
-var storageSKU = isProd ? 'Premium_LRS' : 'Standard_LRS'//envSettingsModule.outputs.storageSKU
+var vmSize = isProd ? 'Standard_A4_v2' : 'Standard_A2_v2'//envSettingsModule.outputs.vmSize
+var storageSKU = isProd ? 'Standard_GRS' : 'Standard_LRS'//envSettingsModule.outputs.storageSKU
 
 //temp while os-settings do not work
 var isLinux = osName == 'linux'
@@ -108,12 +108,12 @@ resource vmModule 'Microsoft.Compute/virtualMachines@2020-12-01' = {
         }
       ]
     }
-    diagnosticsProfile: {
-      bootDiagnostics: {
-        enabled: true
-        storageUri: stgModule.outputs.storageEndpoint.blob
-      }
-    }
+    // diagnosticsProfile: {
+    //   bootDiagnostics: {
+    //     enabled: true
+    //     storageUri: stgModule.outputs.storageEndpoint.blob
+    //   }
+    // }
   }
 }
 
