@@ -7,7 +7,6 @@ param namePrefix string
 param location string = resourceGroup().location
 
 param subnetId string
-// param privateIPAddress string =  '10.0.0.4'
 
 var nicName = '${namePrefix}-nic'
 
@@ -17,6 +16,8 @@ module nsgModule './nsg.bicep' = {
   params: {
     namePrefix: namePrefix
     location: location
+    allow_rdp: true
+    allow_ssh: true
   }
 }
 
@@ -37,12 +38,10 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2020-11-01' = {
       {
         name: '${nicName}-ipconfig'
         properties: {
-          //privateIPAddress: privateIPAddress
           privateIPAllocationMethod: 'Dynamic'
           publicIPAddress: {
             id: publicIpModule.outputs.publicIpId
           }
-          //publicipAllocationMethod: 'Dynamic'
           subnet: {
             id: subnetId
             properties: {
