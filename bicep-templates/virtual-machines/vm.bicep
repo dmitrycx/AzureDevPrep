@@ -1,3 +1,5 @@
+@minLength(4)
+@maxLength(16)
 param namePrefix string
 
 @minLength(2)

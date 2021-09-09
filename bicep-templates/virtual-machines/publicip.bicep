@@ -1,12 +1,12 @@
 @minLength(4)
-@maxLength(16)
+@maxLength(32)
 param namePrefix string
 
 @minLength(4)
 @maxLength(16)
 param location string = resourceGroup().location
 
-param dnsName string = uniqueString('${location}dnsname')
+param dnsName string = '${namePrefix}dnsname'
 
 var ipAddressName = '${namePrefix}-PublicIP'
 
