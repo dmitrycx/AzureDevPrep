@@ -25,7 +25,7 @@ module vmLinuxModule './virtual-machines/vm.bicep' = {
   name: 'vmLinuxDeploy'
   params:{
     namePrefix: resourcePrefix
-    namePostfix:'001'
+    namePostfix:'01'
     location: location
     osName: 'linux'
     environmentName: environmentName
@@ -39,7 +39,7 @@ module vmWindowsModule './virtual-machines/vm.bicep' = {
   name: 'vmWindowsDeploy'
   params:{
     namePrefix: resourcePrefix
-    namePostfix:'002'
+    namePostfix:'02'
     location: location
     osName: 'win'
     environmentName: environmentName

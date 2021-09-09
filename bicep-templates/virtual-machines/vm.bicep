@@ -2,7 +2,7 @@ param namePrefix string
 
 @minLength(2)
 @maxLength(4)
-param namePostfix string = '001'
+param namePostfix string = '01'
 
 @minLength(4)
 @maxLength(16)
@@ -25,7 +25,7 @@ param username string
 @secure()
 param password string
 
-var vmName = '${namePrefix}-${environmentName}-VM-${namePostfix}'
+var vmName = '${namePrefix}${environmentName}VM${namePostfix}'
 
 //temp while env-settings do not work
 var isProd = environmentName == 'prod'
