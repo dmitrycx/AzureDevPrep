@@ -13,6 +13,13 @@ param vmPassword string
 ])
 param environmentName string = 'stage'
 
+module envSettingsModule './parameters/environment-settings.bicep' = {
+  name: '${environmentName}-envSettings'
+  params:{
+    environmentName: environmentName
+  }
+}
+
 module vNetModule './virtual-network/vnet.bicep' = {
   name: 'virtualNetworkDeploy'
   params:{
@@ -21,17 +28,13 @@ module vNetModule './virtual-network/vnet.bicep' = {
   }
 }
 
-//temp while env-settings do not work
-var isProd = environmentName == 'prod'
-var storageSKU = isProd ? 'Premium_LRS' : 'Standard_LRS'//envSettingsModule.outputs.storageSKU
-
 // Create storage for VM
 module stgModule './storage/storage-account.bicep' = {
   name: '${resourcePrefix}${environmentName}stg'
   params: {
     namePrefix: '${resourcePrefix}${environmentName}'
     location: location
-    storageSKU: storageSKU
+    storageSKU: any(envSettingsModule.outputs.storageSKU)
   }
 }
 
@@ -41,6 +44,8 @@ module vmLinuxModule './virtual-machines/vm.bicep' = {
     namePrefix: resourcePrefix
     namePostfix:'01'
     location: location
+    storageSKU: any(envSettingsModule.outputs.storageSKU)
+    vmSize: any(envSettingsModule.outputs.vmSize)
     osName: 'linux'
     environmentName: environmentName
     subnetId: vNetModule.outputs.subnetId
@@ -55,6 +60,8 @@ module vmWindowsModule './virtual-machines/vm.bicep' = {
     namePrefix: resourcePrefix
     namePostfix:'02'
     location: location
+    storageSKU: any(envSettingsModule.outputs.storageSKU)
+    vmSize: any(envSettingsModule.outputs.vmSize)
     osName: 'win'
     environmentName: environmentName
     subnetId: vNetModule.outputs.subnetId

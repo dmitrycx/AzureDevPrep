@@ -8,7 +8,7 @@ param location string = resourceGroup().location
 
 param dnsName string = '${namePrefix}dnsname'
 
-var ipAddressName = '${namePrefix}-PublicIP'
+var ipAddressName = '${namePrefix}-pip'
 
 resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2019-11-01' = {
   name: ipAddressName

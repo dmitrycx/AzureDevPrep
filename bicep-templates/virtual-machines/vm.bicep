@@ -22,35 +22,28 @@ param environmentName string = 'stage'
 ])
 param osName string
 
+@allowed([
+  'Standard_LRS'
+  'Premium_LRS'
+])
+param storageSKU string = 'Standard_LRS'
+
+@allowed([
+  'Standard_A2_v2'
+  'Standard_B1s'
+])
+param vmSize string = 'Standard_A2_v2'
+
 param subnetId string
 param username string
 @secure()
 param password string
 
-var vmName = '${namePrefix}${environmentName}vm${namePostfix}'
-
-// //temp while env-settings do not work
-// var isProd = environmentName == 'prod'
-// var vmSize = isProd ? 'Standard_B1s' : 'Standard_A2_v2'//envSettingsModule.outputs.vmSize
-// var storageSKU = isProd ? 'Premium_LRS' : 'Standard_LRS'//envSettingsModule.outputs.storageSKU
-
-//temp while os-settings do not work
-// var isLinux = osName == 'linux'
-// var publisher = isLinux ? 'Canonical' : 'MicrosoftWindowsServer'
-// var offer = isLinux ? 'UbuntuServer' : 'WindowsServer'
-// var sku = isLinux ? '16.04-LTS' : '2012-R2-Datacenter'
-
-// get settings dependent on env
-module envSettingsModule '../parameters/environment-settings.bicep' = {
-  name: '${environmentName}-EnvSettings'
-  params:{
-    environmentName: environmentName
-  }
-}
+var vmName = '${namePrefix}${environmentName}-vm-${namePostfix}'
 
 // get settings dependent on VM os type
 module osSettingsModule '../parameters/os-settings.bicep' = {
-  name: '${osName}-OsSettings'
+  name: '${osName}-osSettings'
   params:{
     osName: osName
   }
@@ -70,19 +63,16 @@ resource vmModule 'Microsoft.Compute/virtualMachines@2020-12-01' = {
   location: location
   properties: {
     hardwareProfile: {
-      vmSize: any(envSettingsModule.outputs.vmSize)
+      vmSize: vmSize
     }
     storageProfile: {
       osDisk: {
         createOption: 'FromImage'
         managedDisk: {
-          storageAccountType: any(envSettingsModule.outputs.storageSKU)
+          storageAccountType: storageSKU
         }
       }
       imageReference: {
-        // publisher: publisher//osSettingsModule.outputs.publisher
-        // offer: offer//osSettingsModule.outputs.offer
-        // sku: sku//osSettingsModule.outputs.sku
         publisher: osSettingsModule.outputs.publisher
         offer: osSettingsModule.outputs.offer
         sku: osSettingsModule.outputs.sku
