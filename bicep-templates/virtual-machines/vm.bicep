@@ -41,22 +41,22 @@ param password string
 
 var vmName = '${namePrefix}${environmentName}-vm-${namePostfix}'
 
-//temp while os-settings do not work
-//  var isLinux = osName == 'linux'
-//  var publisher = isLinux ? 'Canonical' : 'MicrosoftWindowsServer'
-//  var offer = isLinux ? 'UbuntuServer' : 'WindowsServer'
-//  var sku = isLinux ? '16.04-LTS' : '2012-R2-Datacenter'
+// temp while os-settings do not work
+ var isLinux = osName == 'linux'
+ var publisher = isLinux ? 'Canonical' : 'MicrosoftWindowsServer'
+ var offer = isLinux ? 'UbuntuServer' : 'WindowsServer'
+ var sku = isLinux ? '16.04-LTS' : '2012-R2-Datacenter'
 
- var publisher = osSettingsModule.outputs.publisher
- var offer = osSettingsModule.outputs.offer
- var sku = osSettingsModule.outputs.sku
-// get settings dependent on VM os type
-module osSettingsModule '../parameters/os-settings.bicep' = {
-  name: '${osName}-osSettings'
-  params:{
-    osName: osName
-  }
-}
+//  var publisher = osSettingsModule.outputs.publisher
+//  var offer = osSettingsModule.outputs.offer
+//  var sku = osSettingsModule.outputs.sku
+// // get settings dependent on VM os type
+// module osSettingsModule '../parameters/os-settings.bicep' = {
+//   name: '${osName}-osSettings'
+//   params:{
+//     osName: osName
+//   }
+// }
 
 // Bring in the nic
 module nicModule './nic.bicep' = {
