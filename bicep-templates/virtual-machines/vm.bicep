@@ -39,7 +39,7 @@ param username string
 @secure()
 param password string
 
-var vmName = '${namePrefix}${environmentName}-vm-${namePostfix}'
+var vmName = '${namePrefix}${environmentName}vm${namePostfix}'
 
 // temp while os-settings do not work
  var isLinux = osName == 'linux'
