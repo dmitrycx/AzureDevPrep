@@ -35,10 +35,10 @@ var vmName = '${namePrefix}${environmentName}vm${namePostfix}'
 // var storageSKU = isProd ? 'Premium_LRS' : 'Standard_LRS'//envSettingsModule.outputs.storageSKU
 
 //temp while os-settings do not work
-var isLinux = osName == 'linux'
-var publisher = isLinux ? 'Canonical' : 'MicrosoftWindowsServer'
-var offer = isLinux ? 'UbuntuServer' : 'WindowsServer'
-var sku = isLinux ? '16.04-LTS' : '2012-R2-Datacenter'
+// var isLinux = osName == 'linux'
+// var publisher = isLinux ? 'Canonical' : 'MicrosoftWindowsServer'
+// var offer = isLinux ? 'UbuntuServer' : 'WindowsServer'
+// var sku = isLinux ? '16.04-LTS' : '2012-R2-Datacenter'
 
 // get settings dependent on env
 module envSettingsModule '../parameters/environment-settings.bicep' = {
@@ -48,13 +48,13 @@ module envSettingsModule '../parameters/environment-settings.bicep' = {
   }
 }
 
-// // get settings dependent on VM os type
-// module osSettingsModule '../parameters/os-settings.bicep' = {
-//   name: 'OsSettings'
-//   params:{
-//     osName: osName
-//   }
-// }
+// get settings dependent on VM os type
+module osSettingsModule '../parameters/os-settings.bicep' = {
+  name: 'OsSettings'
+  params:{
+    osName: osName
+  }
+}
 
 // Bring in the nic
 module nicModule './nic.bicep' = {
@@ -64,16 +64,6 @@ module nicModule './nic.bicep' = {
     subnetId: subnetId
   }
 }
-
-// // Create storage for VM
-// module stgModule '../storage/storage-account.bicep' = {
-//   name: '${namePrefix}${environmentName}${osName}stg'
-//   params: {
-//     namePrefix: '${namePrefix}${environmentName}${osName}'
-//     location: location
-//     storageSKU: storageSKU
-//   }
-// }
 
 resource vmModule 'Microsoft.Compute/virtualMachines@2020-12-01' = {
   name: vmName
@@ -90,9 +80,12 @@ resource vmModule 'Microsoft.Compute/virtualMachines@2020-12-01' = {
         }
       }
       imageReference: {
-        publisher: publisher//osSettingsModule.outputs.publisher
-        offer: offer//osSettingsModule.outputs.offer
-        sku: sku//osSettingsModule.outputs.sku
+        // publisher: publisher//osSettingsModule.outputs.publisher
+        // offer: offer//osSettingsModule.outputs.offer
+        // sku: sku//osSettingsModule.outputs.sku
+        publisher: osSettingsModule.outputs.publisher
+        offer: osSettingsModule.outputs.offer
+        sku: osSettingsModule.outputs.sku
         version: 'latest'
       }
     }
