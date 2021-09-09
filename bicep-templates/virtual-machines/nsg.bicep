@@ -1,5 +1,5 @@
-@minLength(3)
-@maxLength(16)
+@minLength(4)
+@maxLength(32)
 param namePrefix string='stg'
 
 @minLength(4)
