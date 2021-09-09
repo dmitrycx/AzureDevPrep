@@ -27,7 +27,7 @@ param username string
 @secure()
 param password string
 
-var vmName = '${namePrefix}${environmentName}VM${namePostfix}'
+var vmName = '${namePrefix}${environmentName}vm${namePostfix}'
 
 //temp while env-settings do not work
 var isProd = environmentName == 'prod'
