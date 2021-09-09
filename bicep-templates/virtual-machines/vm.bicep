@@ -42,7 +42,7 @@ var vmName = '${namePrefix}${environmentName}vm${namePostfix}'
 
 // get settings dependent on env
 module envSettingsModule '../parameters/environment-settings.bicep' = {
-  name: 'EnvSettings'
+  name: '${environmentName}-EnvSettings'
   params:{
     environmentName: environmentName
   }
@@ -50,7 +50,7 @@ module envSettingsModule '../parameters/environment-settings.bicep' = {
 
 // get settings dependent on VM os type
 module osSettingsModule '../parameters/os-settings.bicep' = {
-  name: 'OsSettings'
+  name: '${osName}-OsSettings'
   params:{
     osName: osName
   }
