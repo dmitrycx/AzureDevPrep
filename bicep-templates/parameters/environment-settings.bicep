@@ -10,7 +10,7 @@ var environmentSettings = {
     vmSize: 'Standard_A2_v2'
   }
   prod: {
-    storageSKU: 'Standard_GRS'
+    storageSKU: 'StandardSSD_LRS'
     vmSize: 'Standard_A4_v2'
   }
 }

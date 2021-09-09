@@ -8,7 +8,7 @@ param location string = resourceGroup().location
 
 @allowed([
   'Standard_LRS'
-  'Standard_GRS'
+  'StandardSSD_LRS'
 ])
 param storageSKU string = 'Standard_LRS'
 
