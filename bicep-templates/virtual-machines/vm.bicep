@@ -57,7 +57,7 @@ module osSettingsModule '../parameters/os-settings.bicep' = {
 */
 
 // Bring in the nic
-module nicModule './vm-nic.bicep' = {
+module nicModule './nic.bicep' = {
   name: '${vmName}-nic'
   params: {
     namePrefix: vmName
@@ -65,15 +65,15 @@ module nicModule './vm-nic.bicep' = {
   }
 }
 
-// Create storage for VM
-module stgModule '../storage/storage-account.bicep' = {
-  name: '${namePrefix}${environmentName}${osName}stg'
-  params: {
-    namePrefix: '${namePrefix}${environmentName}${osName}'
-    location: location
-    storageSKU: storageSKU
-  }
-}
+// // Create storage for VM
+// module stgModule '../storage/storage-account.bicep' = {
+//   name: '${namePrefix}${environmentName}${osName}stg'
+//   params: {
+//     namePrefix: '${namePrefix}${environmentName}${osName}'
+//     location: location
+//     storageSKU: storageSKU
+//   }
+// }
 
 resource vmModule 'Microsoft.Compute/virtualMachines@2020-12-01' = {
   name: vmName

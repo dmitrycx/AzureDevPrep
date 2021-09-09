@@ -1,6 +1,6 @@
 @minLength(3)
 @maxLength(11)
-param nsgPrefix string='stg'
+param namePrefix string='stg'
 
 @minLength(4)
 @maxLength(16)
@@ -9,7 +9,7 @@ param location string = resourceGroup().location
 param allow_rdp bool = false
 param allow_ssh bool = false
 
-var nsgName = '${nsgPrefix}-nsg'
+var nsgName = '${namePrefix}-nsg'
 
 resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2019-11-01' = {
   name: nsgName
@@ -47,3 +47,5 @@ resource networkSecurityGroupSecurityRuleSSH 'Microsoft.Network/networkSecurityG
     direction: 'Inbound'
   }
 }
+
+output nsgId string = networkSecurityGroup.id
