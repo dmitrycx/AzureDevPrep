@@ -9,7 +9,7 @@ param location string = resourceGroup().location
 param subnetId string
 // param privateIPAddress string =  '10.0.0.4'
 
-var nicName = '${namePrefix}-nic-${uniqueString(resourceGroup().id)}'
+var nicName = '${namePrefix}-nic'
 
 // bring in the nsg
 module nsgModule './nsg.bicep' = {
@@ -22,9 +22,9 @@ module nsgModule './nsg.bicep' = {
 
 // bring in the public IP
 module publicIpModule './publicip.bicep' = {
-  name: '${namePrefix}-pip'
+  name: '${nicName}-pip'
   params: {
-    namePrefix: namePrefix
+    namePrefix: nicName
     location: location
   }
 }
@@ -35,7 +35,7 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2020-11-01' = {
   properties: {
     ipConfigurations: [
       {
-        name: '${namePrefix}-ipconfig'
+        name: '${nicName}-ipconfig'
         properties: {
           //privateIPAddress: privateIPAddress
           privateIPAllocationMethod: 'Dynamic'
