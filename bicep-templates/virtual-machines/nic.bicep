@@ -45,14 +45,15 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2020-11-01' = {
           //publicipAllocationMethod: 'Dynamic'
           subnet: {
             id: subnetId
-          }
-          applicationSecurityGroups: [
-            {
-              id: nsgModule.outputs.nsgId
-              location: location
-              properties: {}
+            properties: {
+              networkSecurityGroup: {
+                  id: nsgModule.outputs.nsgId
+                  location: location
+                  properties: {}
+                }
             }
-          ]
+          }
+
           primary: true
           privateIPAddressVersion: 'IPv4'
         }
