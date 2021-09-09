@@ -21,6 +21,20 @@ module vNetModule './virtual-network/vnet.bicep' = {
   }
 }
 
+//temp while env-settings do not work
+var isProd = environmentName == 'prod'
+var storageSKU = isProd ? 'Premium_LRS' : 'Standard_LRS'//envSettingsModule.outputs.storageSKU
+
+// Create storage for VM
+module stgModule './storage/storage-account.bicep' = {
+  name: '${resourcePrefix}${environmentName}stg'
+  params: {
+    namePrefix: '${resourcePrefix}${environmentName}'
+    location: location
+    storageSKU: storageSKU
+  }
+}
+
 module vmLinuxModule './virtual-machines/vm.bicep' = {
   name: 'vmLinuxDeploy'
   params:{
