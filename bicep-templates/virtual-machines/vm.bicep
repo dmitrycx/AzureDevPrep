@@ -41,6 +41,15 @@ param password string
 
 var vmName = '${namePrefix}${environmentName}-vm-${namePostfix}'
 
+//temp while os-settings do not work
+//  var isLinux = osName == 'linux'
+//  var publisher = isLinux ? 'Canonical' : 'MicrosoftWindowsServer'
+//  var offer = isLinux ? 'UbuntuServer' : 'WindowsServer'
+//  var sku = isLinux ? '16.04-LTS' : '2012-R2-Datacenter'
+
+ var publisher = osSettingsModule.outputs.publisher
+ var offer = osSettingsModule.outputs.offer
+ var sku = osSettingsModule.outputs.sku
 // get settings dependent on VM os type
 module osSettingsModule '../parameters/os-settings.bicep' = {
   name: '${osName}-osSettings'
@@ -73,9 +82,9 @@ resource vmModule 'Microsoft.Compute/virtualMachines@2020-12-01' = {
         }
       }
       imageReference: {
-        publisher: any(osSettingsModule.outputs.publisher)
-        offer: any(osSettingsModule.outputs.offer)
-        sku: any(osSettingsModule.outputs.sku)
+        publisher: publisher
+        offer: offer
+        sku: sku
         version: 'latest'
       }
     }
