@@ -6,10 +6,10 @@ param namePrefix string
 @maxLength(16)
 param location string = resourceGroup().location
 
-@allowed([
-  'Standard_LRS'
-  'StandardSSD_LRS'
-])
+// @allowed([
+//   'Standard_LRS'
+//   'StandardSSD_LRS'
+// ])
 param storageSKU string = 'Standard_LRS'
 
 var storageName = '${namePrefix}stg'
